@@ -1,6 +1,12 @@
 require 'nokogiri'
 require 'http'
 
+=begin
+당근은 Ruby를 사용하는 회사 중 가장 유명한 회사입니다.
+    악의적인 목적으로 만들어진 것이 아닌,
+    Ruby를 공부하기에 앞서 당근팀의 코드 작성 스타일을 알기 위해서 작성된 스크립트 입니다.
+=end
+
 $github_url = "https://github.com"
 
 def is_this_user_use_ruby name, href
@@ -20,6 +26,7 @@ end
 
 def get_user_info 
   page = 1
+  users = {}
   while true do
     url = "#{$github_url}/orgs/daangn/people?page=#{page}"
     response = HTTP.get(url)
@@ -28,24 +35,31 @@ def get_user_info
     doc = Nokogiri::HTML(html)
   
     members = doc.css('a.f4.d-block')
-    names = []
-    urls = []
+
+    flag = true
   
     # 이름이랑 url 출력
     members.each do |member|
-      urls << member['href']
-      names << member.text.strip
+      # key(name) : value(href)
+      users[member.text.strip] = member['href']
+      if flag == true
+        flag = false
+      end
     end
 
-    for i in 0..names.length 
-      is_this_user_use_ruby names[i], urls[i]
-    end
-  
-    if names.empty?
+    if flag == true
       break
     end
     page += 1
   end
+  users
 end
 
-get_user_info
+def main
+  users = get_user_info
+  users.each do |name, href|
+    is_this_user_use_ruby name, href
+  end
+end
+
+main
