@@ -3,8 +3,8 @@ require 'http'
 
 =begin
 당근은 Ruby를 사용하는 회사 중 가장 유명한 회사입니다.
-    악의적인 목적으로 만들어진 것이 아닌,
-    Ruby를 공부하기에 앞서 당근팀의 코드 작성 스타일을 알기 위해서 작성된 스크립트 입니다.
+악의적인 목적으로 만들어진 것이 아닌,
+Ruby를 공부하기에 앞서 당근팀의 코드 작성 스타일을 알기 위해서 작성된 스크립트 입니다.
 =end
 
 $github_url = "https://github.com"
@@ -67,8 +67,13 @@ def get_user_info
 end
 
 def main
+  start = Time.now
   users = get_user_info
   puts_if_ruby_user users
+  finish = Time.now
+
+  diff_ms = (finish - start) * 1000
+  puts "\nTime taken to run: #{diff_ms} ms"
 end
 
 main
