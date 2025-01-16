@@ -8,9 +8,10 @@ require 'http'
 =end
 
 $github_url = "https://github.com"
+$search_options = "?tab=repositories&q=&type=&language=ruby&sort="
 
 def is_this_user_use_ruby name, href
-  url = "#{$github_url}#{href}?tab=repositories&q=&type=&language=ruby&sort="
+  url = "#{$github_url}#{href}#{$search_options}"
   response = HTTP.get(url)
   html = response.body.to_s
 
@@ -19,8 +20,18 @@ def is_this_user_use_ruby name, href
   repos = doc.css('div.col-10.col-lg-9.d-inline-block')
 
   if not repos.empty?
-    puts "#{name} is using Ruby!"
-    puts "#{$github_url}#{href}"
+    true
+  else 
+    false
+  end
+end
+
+def puts_if_ruby_user users
+  users.each do |name, href|
+    if is_this_user_use_ruby name, href
+      puts "#{name} uses Ruby!!!"
+      puts "#{$github_url}#{href}#{$search_options}"
+    end
   end
 end
 
@@ -57,9 +68,7 @@ end
 
 def main
   users = get_user_info
-  users.each do |name, href|
-    is_this_user_use_ruby name, href
-  end
+  puts_if_ruby_user users
 end
 
 main
