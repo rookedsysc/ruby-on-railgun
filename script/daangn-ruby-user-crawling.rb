@@ -1,3 +1,4 @@
+require 'concurrent'
 require 'nokogiri'
 require 'http'
 
@@ -26,12 +27,18 @@ def is_this_user_use_ruby name, href
   end
 end
 
-def puts_if_ruby_user users
-  users.each do |name, href|
-    if is_this_user_use_ruby name, href
-      puts "#{name} uses Ruby!!!"
-      puts "#{$github_url}#{href}#{$search_options}"
+def puts_if_ruby_user(users)
+  futures = users.map do |name, href|
+    Concurrent::Future.execute do
+      if is_this_user_use_ruby(name, href)
+        "#{name} uses Ruby!!!\n#{$github_url}#{href}#{$search_options}"
+      end
     end
+  end
+
+  futures.each do |future|
+    result = future.value 
+    puts result if result
   end
 end
 
