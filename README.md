@@ -466,6 +466,13 @@ profile 'count to a million' do
 end
 ```
 
+### 당근 컨벤션 분석
+
+- 파일명에서 두 문자가 합쳐지면 _로 구분
+- 클래스명은 CamelCase
+- 메서드에서 parameter 받는 경우 () 사용
+- 메서드명은 snake_case
+
 ## Reference
 
 - https://pine.fm/LearnToProgram
