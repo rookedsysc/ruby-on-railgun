@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:15.3
+    container_name: rails-board-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: df159357
+      POSTGRES_DB: rails_board
+    networks:
+      - rails_board
+
+networks:
+  rails_board:
+    driver: bridge
