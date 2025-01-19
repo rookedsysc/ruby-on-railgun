@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: db
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: df159357
+      POSTGRES_DB: rails-board
+    ports:
+      - "5432:5432"
+    networks:
+      - ruby-board
+
+  api:
+    build:
+      context: .
+    container_name: api
+    command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      RAILS_ENV: development
+    volumes:
+      - .:/app
+    networks:
+      - ruby-board
+
+networks:
+  ruby-board:
+    driver: bridge
