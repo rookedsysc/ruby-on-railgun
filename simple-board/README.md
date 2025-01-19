@@ -72,3 +72,23 @@ rails console
 ```console 
 rails generate model Post title:string content:text
 ```
+
+### Controller 생성
+
+- 생성 명령어 (test 파일 같이 생성됨)
+
+```console filename="" copy showLineNumbers
+rails g controller api/v1/posts
+```
+
+- routes.rb에 routing 해줘야 함
+
+```console filename="" copy showLineNumbers
+Rails.application.routes.draw do
+  namespace :api do # 폴더 
+    namespace :v1 do # 폴더 
+      resources :posts # 파일
+    end
+  end
+end
+```
