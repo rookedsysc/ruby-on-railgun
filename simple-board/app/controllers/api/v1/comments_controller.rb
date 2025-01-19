@@ -2,7 +2,7 @@ module Api
   module V1
     class CommentsController < ApplicationController
       before_action :set_post, only: %i[create index]
-      before_action :set_comment, only: %i[show update destroy]
+      before_action :set_comment, only: %i[update destroy]
 
       # GET /api/v1/posts/:post_id/comments
       def index
