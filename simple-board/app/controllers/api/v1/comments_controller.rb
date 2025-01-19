@@ -19,19 +19,16 @@ module Api
         end
       end
 
-      # PATCH/PUT /api/v1/posts/:post_id/comments/:id
+      # PATCH/PUT /api/v1/comments/:id
       def update
-        if @comment.update(comment_params)
-          render json: @comment
-        else
-          render json: @comment.errors, status: :unprocessable_entity
-        end
+        comment = Comment.where(id: params[:id]).update(comment_params)
+        render json: comment, status: :ok
       end
 
-      # DELETE /api/v1/posts/:post_id/comments/:id
+      # DELETE /api/v1/comments/:id
       def destroy
-        @comment.destroy
-        head :no_content
+        Comment.delete_by(id: params[:id])
+        render json: { message: 'Comment deleted' }, status: :ok
       end
 
       private
