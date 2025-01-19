@@ -5,6 +5,7 @@ Rails.application.routes.draw do
         resources :comments, only: %i[index create]
       end
       resources :comments, only: %i[update destroy]
+      resources :taboo_words
     end
   end
 end
