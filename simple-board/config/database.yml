@@ -8,6 +8,7 @@ default: &default
 
 development:
   <<: *default
+  host: db
   database: rails-board
 
 test:
