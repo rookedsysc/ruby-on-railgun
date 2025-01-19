@@ -2,7 +2,6 @@ module Api
   module V1
     class CommentsController < ApplicationController
       before_action :set_post, only: %i[create index]
-      before_action :set_comment, only: %i[update destroy]
 
       # GET /api/v1/posts/:post_id/comments
       def index
@@ -39,10 +38,6 @@ module Api
 
       def set_post
         @post = Post.find(params[:post_id])
-      end
-
-      def set_comment
-        @comment = @post.comments.find(params[:id])
       end
 
       def comment_params
