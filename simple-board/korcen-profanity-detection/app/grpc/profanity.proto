@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package profanity;
+
+service ProfanityService {
+  rpc DetectProfanity (TextRequest) returns (ProfanityResponse);
+}
+
+message TextRequest {
+  string text = 1;
+}
+
+message ProfanityResponse {
+  bool is_profane = 1;
+  string message = 2;
+}
