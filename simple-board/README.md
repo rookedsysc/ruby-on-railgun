@@ -92,7 +92,7 @@ rails g controller api/v1/posts
 
 - routes.rb에 routing 해줘야 함
 
-```console filename="" copy showLineNumbers
+```ruby filename="" showLineNumbers copy
 Rails.application.routes.draw do
   namespace :api do # 폴더 
     namespace :v1 do # 폴더 
@@ -106,7 +106,7 @@ end
 
 - comments를 posts 하위 경로로 routing하고 싶다면 posts에다가 resources로 comments를 넣어주면 됨
 
-```console filename="" copy showLineNumbers
+```ruby filename="" copy showLineNumbers
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
@@ -117,3 +117,22 @@ Rails.application.routes.draw do
   end
 end
 ```
+
+#### Routing 분리 
+
+- 개발하다가 create, index는 posts의 하위 경로로 하고 update, destroy는 comments부터 경로가 시작했으면 했음
+- 그래서 routes.rb의 only 파라미터에 어떤 메서드가 posts 밑으로 갈지 어떤 메서드가 comments로 시작할지 정의 가능한 사실 발견
+
+```ruby filename="" copy showLineNumbers
+Rails.application.routes.draw do
+  namespace :api do
+    namespace :v1 do
+      resources :posts do
+        resources :comments, only: %i[index create]
+      end
+      resources :comments, only: %i[update destroy]
+    end
+  end
+end
+```
+
