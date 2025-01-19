@@ -29,7 +29,39 @@ rails db:create
 rails db:migrate
 ```
 
+## Swagger
+
+- Gemfile에 Dependency 추가
+
+```Gemfile
+gem 'rswag-api'
+gem 'rswag-ui'
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'rswag-specs'
+end
+```
+
+- rswag 설치 및 Doc 생성
+
+```console
+bundle install
+rails g rswag:api:install
+rails g rswag:ui:install
+rails generate rswag:specs:install
+```
+
+- RestDocs처럼 Test 코드 작성해야 하는 것 같아서 일단은 포기함(이게 우선 순위가 아닐테니)
+
 ## CLI
+
+### CLI 진입 
+
+```console
+rails console
+```
+
+- console 진입하고 `find, all, create` 등의 명령어로 DB 조작 가능
 
 ### Model 생성
 
