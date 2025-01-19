@@ -101,3 +101,19 @@ Rails.application.routes.draw do
   end
 end
 ```
+
+#### 하위 경로로 Routing
+
+- comments를 posts 하위 경로로 routing하고 싶다면 posts에다가 resources로 comments를 넣어주면 됨
+
+```console filename="" copy showLineNumbers
+Rails.application.routes.draw do
+  namespace :api do
+    namespace :v1 do
+      resources :posts do
+        resources :comments
+      end
+    end
+  end
+end
+```
