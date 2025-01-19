@@ -13,7 +13,7 @@ module Api
       def create
         taboo_word = TabooWord.new(taboo_word_params)
         if taboo_word.save
-          render json: @taboo_word, status: :created
+          render json: taboo_word, status: :created
         else
           render json: { message: 'Failed to create taboo word', errors: taboo_word.errors.full_messages }, status: :unprocessable_entity
         end
