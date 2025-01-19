@@ -73,6 +73,15 @@ rails console
 rails generate model Post title:string content:text
 ```
 
+#### Model 연관관계 설정
+
+- 위 Post 모델에 연관관계를 설정한다면, (모델명):references로 참조를 걸 수 있음
+
+```console filename="" copy showLineNumbers
+rails g model Comment content:text post:references
+rails db:migrate
+```
+
 ### Controller 생성
 
 - 생성 명령어 (test 파일 같이 생성됨)
