@@ -1,0 +1,2 @@
+class TabooWord < ApplicationRecord
+end
