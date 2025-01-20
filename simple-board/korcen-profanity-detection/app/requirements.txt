@@ -4,3 +4,4 @@ grpcio
 grpcio-tools
 tensorflow
 numpy
+transformers

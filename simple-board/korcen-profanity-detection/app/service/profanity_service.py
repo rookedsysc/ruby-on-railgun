@@ -1,7 +1,9 @@
-from app.grpc import profanity_pb2, profanity_pb2_grpc
-from app.utils.model_loader import ModelLoader
 
-class ProfanityService(profanity_pb2_grpc.ProfanityServiceServicer):
+from grpc import profanity_pb2
+from grpc.profanity_pb2_grpc import ProfanityServiceServicer
+
+
+class ProfanityService(ProfanityServiceServicer):
     def __init__(self, model_loader):
         self.model_loader = model_loader
 
