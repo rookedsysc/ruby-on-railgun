@@ -9,6 +9,7 @@ Rails.application.routes.draw do
         collection do
           get :similar
           get :similar2
+          post :detect_profanity
         end
       end
     end
