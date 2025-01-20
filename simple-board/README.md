@@ -1,3 +1,12 @@
+## Installation
+
+```console filename="" copy showLineNumbers
+cd korcen-profanity-detection/
+docker build -f Dockerfile-base -t my-python-base:1.0 .
+cd ..
+docker compose up -d --build
+```
+
 ## Ruby On Rails Doc
 
 ## How To Start
