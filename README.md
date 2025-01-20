@@ -389,11 +389,11 @@ user.introduceSelf # Error
 
 - 기본 클래스에는 Integer에 plus라는 메서드가 없음
 
-<img src="./img/index/2025-01-15-22-57-58.png" width="50%" />
+<img src="./img/2025-01-15-22-57-58.png" width="50%" />
 
 - 확장 클래스를 만들어서 Integer에 plus 메서드를 추가
 
-<img src="./img/index/2025-01-15-22-58-56.png" width="50%" />
+<img src="./img/2025-01-15-22-58-56.png" width="50%" />
 
 ```ruby filename="" showLineNumbers copy
 class Integer
