@@ -102,39 +102,6 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-protobuf (4.29.3)
-      bigdecimal
-      rake (>= 13)
-    google-protobuf (4.29.3-aarch64-linux)
-      bigdecimal
-      rake (>= 13)
-    google-protobuf (4.29.3-arm64-darwin)
-      bigdecimal
-      rake (>= 13)
-    google-protobuf (4.29.3-x86_64-darwin)
-      bigdecimal
-      rake (>= 13)
-    google-protobuf (4.29.3-x86_64-linux)
-      bigdecimal
-      rake (>= 13)
-    googleapis-common-protos-types (1.18.0)
-      google-protobuf (>= 3.18, < 5.a)
-    grpc (1.69.0)
-      google-protobuf (>= 3.25, < 5.0)
-      googleapis-common-protos-types (~> 1.0)
-    grpc (1.69.0-aarch64-linux)
-      google-protobuf (>= 3.25, < 5.0)
-      googleapis-common-protos-types (~> 1.0)
-    grpc (1.69.0-arm64-darwin)
-      google-protobuf (>= 3.25, < 5.0)
-      googleapis-common-protos-types (~> 1.0)
-    grpc (1.69.0-x86_64-darwin)
-      google-protobuf (>= 3.25, < 5.0)
-      googleapis-common-protos-types (~> 1.0)
-    grpc (1.69.0-x86_64-linux)
-      google-protobuf (>= 3.25, < 5.0)
-      googleapis-common-protos-types (~> 1.0)
-    grpc-tools (1.69.0)
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     io-console (0.8.0)
@@ -344,8 +311,6 @@ DEPENDENCIES
   bootsnap
   brakeman
   debug
-  grpc
-  grpc-tools
   kamal
   pg (~> 1.2)
   puma (>= 5.0)

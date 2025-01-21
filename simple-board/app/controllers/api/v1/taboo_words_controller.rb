@@ -42,12 +42,14 @@ module Api
           render json: { message: 'Query parameter is missing' }, status: :unprocessable_entity
         else
           # 소녀가 금기어일 경우 소ㅁ녀는 탐지가 되는데 소a녀는 탐지가 안됨 -> ㄱ~ㅎ이 빠져서 그럼
-          normalized_query = query.gsub(/[^ㄱ-ㅎa-zA-Z가-힣]/, '')
-          normalized_combinations = []
+          normalized_query = query.gsub(/[^a-zA-Z가-힣]/, '')
+          normalized_queries = []
 
           for i in 0...normalized_query.length do
+            # 끝 값은 제외
             for j in i...normalized_query.length do
-              normalized_combinations << normalized_query[i..j]
+              # 끝 값은 제외
+              normalized_queries << normalized_query[i..j]
             end
           end
 
@@ -58,8 +60,8 @@ module Api
           #                    .limit(5)
 
           @similar_words = TabooWord
-                             .where("content IN (?) OR content % ?", normalized_combinations, normalized_query)
-                             .select("taboo_words.*, GREATEST(#{normalized_combinations.map { |query| "similarity(content, #{ActiveRecord::Base.connection.quote(query)})" }.join(', ')}) AS similarity_score")
+                             .where("content IN (?) OR content % ?", normalized_queries, normalized_query)
+                             .select("taboo_words.*, GREATEST(#{normalized_queries.map { |query| "similarity(content, #{ActiveRecord::Base.connection.quote(query)})" }.join(', ')}) AS similarity_score")
                              .order(Arel.sql("similarity_score DESC"))
                              .limit(5)
 
@@ -68,31 +70,6 @@ module Api
           else
             render json: { message: 'No similar taboo words found' }, status: :not_found
           end
-        end
-      end
-
-      def similar2
-        query = params[:query]
-
-        if query.blank?
-          render json: { message: 'Query parameter is missing' }, status: :unprocessable_entity
-        else
-          normalized_query = query.gsub(/[^ㄱ-ㅎa-zA-Z가-힣]/, '')
-          normalized_combinations = []
-
-          for i in 0...normalized_query.length do
-            for j in i...normalized_query.length do
-              normalized_combinations << normalized_query[i..j]
-            end
-          end
-
-          @similar_words = TabooWord.where(content: normalized_combinations)
-        end
-
-        if @similar_words.any?
-          render json: @similar_words, status: :ok
-        else
-          render json: { message: 'No similar taboo words found' }, status: :not_found
         end
       end
 

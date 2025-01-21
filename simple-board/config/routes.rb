@@ -8,8 +8,6 @@ Rails.application.routes.draw do
       resources :taboo_words, only: [:index, :create, :update, :destroy] do
         collection do
           get :similar
-          get :similar2
-          post :detect_profanity
         end
       end
     end
