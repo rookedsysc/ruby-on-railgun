@@ -45,3 +45,5 @@ group :development, :test do
 end
 
 gem "pg", "~> 1.2" # Use PostgreSQL as the database for Active Record
+gem 'grpc'
+gem 'grpc-tools'

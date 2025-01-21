@@ -1,4 +1,16 @@
 services:
+  korcen-profanity:
+    build:
+      context: ./korcen-profanity-detection
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+      - "50051:50051"
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - ruby-board
+
   db:
     image: postgres:latest
     container_name: db
@@ -14,6 +26,7 @@ services:
   api:
     build:
       context: .
+      dockerfile: Dockerfile
     container_name: api
     command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
     ports:
