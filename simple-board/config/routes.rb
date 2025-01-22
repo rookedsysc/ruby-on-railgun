@@ -7,9 +7,9 @@ Rails.application.routes.draw do
       resources :comments, only: %i[update destroy]
       resources :taboo_words, only: [:index, :create, :update, :destroy] do
         collection do
-          get :similar
-          get :similar2
-          post :detect_profanity
+          get :trigram
+          get :full_text
+        end
         end
       end
     end
