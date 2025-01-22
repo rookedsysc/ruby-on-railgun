@@ -20,7 +20,7 @@ module Api
           if levenshtein_word.save
             render json: { message: 'Word created successfully', word: levenshtein_word }, status: :created
           else
-            render json: { message: 'Failed to create word', errors: levenshtein_word.errors.full_messages }, status: :unprocessable_entity
+            render json: { message: 'Failed to create word', errors: levenshtein_word.errors.full_messages }, status: :bad_request
           end
         rescue ActiveRecord::RecordNotUnique
           render json: { message: 'Word already exists' }, status: :not_acceptable
