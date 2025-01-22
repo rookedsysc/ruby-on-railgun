@@ -34,8 +34,8 @@ module Api
         render json: { message: 'Taboo word deleted successfully' }, status: :ok
       end
 
-      # GET /api/v1/taboo_words/similar?query=단어
-      def similar
+      # GET /api/v1/taboo_words/trigram?query=단어
+      def trigram
         query = params[:query]
 
         if query.blank?
@@ -71,7 +71,8 @@ module Api
         end
       end
 
-      def similar2
+      # GET /api/v1/taboo_words/full_text?query=단어
+      def full_text
         query = params[:query]
 
         if query.blank?
