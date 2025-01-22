@@ -16,10 +16,14 @@ module Api
 
         levenshtein_word = LevenshteinWords.new(content: word)
 
-        if levenshtein_word.save
-          render json: { message: 'Word created successfully', word: levenshtein_word }, status: :created
-        else
-          render json: { message: 'Failed to create word', errors: levenshtein_word.errors.full_messages }, status: :unprocessable_entity
+        begin
+          if levenshtein_word.save
+            render json: { message: 'Word created successfully', word: levenshtein_word }, status: :created
+          else
+            render json: { message: 'Failed to create word', errors: levenshtein_word.errors.full_messages }, status: :bad_request
+          end
+        rescue ActiveRecord::RecordNotUnique
+          render json: { message: 'Word already exists' }, status: :not_acceptable
         end
       end
 
