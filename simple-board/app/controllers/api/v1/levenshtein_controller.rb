@@ -82,20 +82,28 @@ module Api
         end
 
         # levenshtein.rb 거리 허용값
-        thresh_hold = 2
+        thresh_hold = 0.5
 
         @similar_words = LevenshteinWords.find_by_sql([<<-SQL, normalized_combinations, thresh_hold])
-          SELECT content 
-          FROM levenshtein_words
-          WHERE EXISTS (
-            SELECT 1
-            FROM UNNEST(ARRAY[?]::text[]) AS combination(word)
-            WHERE levenshtein(levenshtein_words.content, combination.word) <= ?
-          )
+          SELECT id, 
+                 content, 
+                 (1.0 - (
+                   CAST(levenshtein(levenshtein_words.content, combination.word) AS FLOAT) / 
+                   GREATEST(LENGTH(levenshtein_words.content), LENGTH(combination.word))
+                 )) AS similarity_rate
+          FROM levenshtein_words, UNNEST(ARRAY[?]::text[]) AS combination(word)
+          WHERE (
+            1.0 - (
+              CAST(levenshtein(levenshtein_words.content, combination.word) AS FLOAT) / 
+              GREATEST(LENGTH(levenshtein_words.content), LENGTH(combination.word))
+            )
+          ) >= ?
+          ORDER BY similarity_rate DESC
+          LIMIT 5
         SQL
 
         if @similar_words.any?
-          render json: @similar_words.map(&:content), status: :ok
+          render json: @similar_words, status: :ok
         else
           render json: { message: 'No similar taboo words found' }, status: :not_found
         end
