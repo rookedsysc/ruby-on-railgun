@@ -61,3 +61,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem 'grpc'
+gem 'grpc-tools'
+gem 'google-protobuf'
