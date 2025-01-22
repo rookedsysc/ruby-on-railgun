@@ -10,6 +10,10 @@ Rails.application.routes.draw do
           get :trigram
           get :full_text
         end
+      end
+      resources :levenshtein, only: [:index, :create, :update, :destroy] do
+        collection do
+          get :search
         end
       end
     end
