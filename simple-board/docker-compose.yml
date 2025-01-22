@@ -11,11 +11,11 @@ services:
     networks:
       - ruby-board
 
-  api:
+  community-service:
     build:
-      context: .
+      context: ./community-service
       dockerfile: Dockerfile
-    container_name: api
+    container_name: community-service
     command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
     ports:
       - "3000:3000"
