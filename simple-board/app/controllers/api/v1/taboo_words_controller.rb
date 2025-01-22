@@ -12,10 +12,14 @@ module Api
       # POST /api/v1/taboo_words
       def create
         taboo_word = TabooWord.new(taboo_word_params)
-        if taboo_word.save
-          render json: taboo_word, status: :created
-        else
-          render json: { message: 'Failed to create taboo word', errors: taboo_word.errors.full_messages }, status: :unprocessable_entity
+        begin
+          if taboo_word.save
+            render json: taboo_word, status: :created
+          else
+            render json: { message: 'Failed to create taboo word', errors: taboo_word.errors.full_messages }, status: :unprocessable_entity
+          end
+        rescue ActiveRecord::RecordNotUnique
+          render json: { message: 'Taboo word already exists' }, status: :not_acceptable
         end
       end
 
