@@ -5,7 +5,7 @@ module Api
 
       # GET /api/v1/posts/:post_id/comments
       def index
-        @comments = @post.comments
+        @comments = @post.comments.find_by(is_visible: true)
         render json: @comments
       end
 

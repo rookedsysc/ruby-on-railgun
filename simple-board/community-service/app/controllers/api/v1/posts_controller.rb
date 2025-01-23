@@ -7,7 +7,7 @@ module Api
 
       # GET /api/v1/posts
       def index
-        @posts = Post.all
+        @posts = Post.find_by(is_visible: true)
         render json: @posts
       end
 
