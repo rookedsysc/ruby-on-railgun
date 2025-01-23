@@ -28,6 +28,23 @@ services:
     networks:
       - ruby-board
 
+  bad-word-detector-service:
+    build:
+      context: ./badword-detector
+      dockerfile: Dockerfile
+    container_name: bad-word-detector-service
+    command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
+    ports:
+      - "50051:50051"
+    depends_on:
+      - db
+    environment:
+      RAILS_ENV: development
+    volumes:
+      - .:/app
+    networks:
+      - ruby-board
+
 networks:
   ruby-board:
     driver: bridge
