@@ -1,0 +1,22 @@
+// levenshtein.proto
+syntax = "proto3";
+
+package levenshtein;
+
+service LevenshteinService {
+  rpc Search(Query) returns (SearchResponse);
+}
+
+message Query {
+  string text = 1;
+}
+
+message Word {
+  int64 id = 1;
+  string content = 2;
+  double similarity_rate = 3;
+}
+
+message SearchResponse {
+  repeated Word words = 1;
+}
