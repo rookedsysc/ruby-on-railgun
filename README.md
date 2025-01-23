@@ -10,6 +10,10 @@
 5.times { print "We *love* Ruby -- it's outrageous!" }
 ```
 
+## Ruby On Rails Docs
+
+- https://github.com/rookedsysc/ruby-on-railgun/tree/main/ror-docs
+
 ### 좀 더 공부해볼만한 것들
 
 - GC : true mark-and-sweep GC가 있다고 함
