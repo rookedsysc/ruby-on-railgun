@@ -1,3 +1,10 @@
+## 소개 
+
+이 문서는 Ruby를 공부하면서 정리한 문서입니다. Ruby On Rails에 대한 문서를 보고 싶다면 아래 링크를 참고해주세요.
+
+- https://github.com/rookedsysc/ruby-on-railgun/tree/main/ror-docs
+
+
 ## 루비
 
 - Yukihiro Matz가 평소 좋아하던 Perl, Smalltalk, Eiffel, Ada, Lisp 등의 언어를 참고하여 함수형 프로그래밍과 명령형 프로그래밍의 균형을 맞춘 새로운 언어
@@ -9,10 +16,6 @@
 ```ruby filename="" showLineNumbers copy
 5.times { print "We *love* Ruby -- it's outrageous!" }
 ```
-
-## Ruby On Rails Docs
-
-- https://github.com/rookedsysc/ruby-on-railgun/tree/main/ror-docs
 
 ### 좀 더 공부해볼만한 것들
 
