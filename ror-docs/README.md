@@ -2,6 +2,12 @@
 
 ## How To Start
 
+- project 생성 방법 (폴더 통째로 생성됨)
+
+```console filename="" copy showLineNumbers
+rails new project-name
+```
+
 - Rails 서버는 변경을 자동으로 감지해서 Autoloading이 된다고 함
 
 ```console
