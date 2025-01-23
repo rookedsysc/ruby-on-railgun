@@ -1,0 +1,2 @@
+class LevenshteinWords < ApplicationRecord
+end
