@@ -11,11 +11,6 @@ Rails.application.routes.draw do
           get :full_text
         end
       end
-      resources :levenshtein, only: [:index, :create, :update, :destroy] do
-        collection do
-          get :search
-        end
-      end
     end
   end
 end
