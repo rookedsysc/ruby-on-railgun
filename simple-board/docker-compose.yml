@@ -28,6 +28,25 @@ services:
     networks:
       - ruby-board
 
+  management-service:
+    build:
+      context: ./management-service
+      dockerfile: Dockerfile
+    container_name: management-service
+    command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
+    ports:
+      - "3001:3000"
+    depends_on:
+      - db
+      - community-service
+    environment:
+      RAILS_ENV: development
+    volumes:
+      - .:/app
+    networks:
+      - ruby-board
+
+
   bad-word-detector-service:
     build:
       context: ./badword-detector
@@ -38,6 +57,8 @@ services:
       - "50051:50051"
     depends_on:
       - db
+      - community-service
+      - management-service
     environment:
       RAILS_ENV: development
     volumes:
