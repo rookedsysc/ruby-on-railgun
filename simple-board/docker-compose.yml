@@ -18,7 +18,7 @@ services:
     container_name: community-service
     command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
     ports:
-      - "3000:3000"
+      - "8080:3000"
     depends_on:
       - db
     environment:
@@ -35,7 +35,7 @@ services:
     container_name: management-service
     command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
     ports:
-      - "3001:3000"
+      - "8081:3000"
     depends_on:
       - db
     environment:
@@ -67,12 +67,33 @@ services:
     container_name: rabbitmq
     ports:
       - "5672:5672"
-      - "15672:15672"
+      - "15672:15672" # management console
+      - "15692:15692" # prometheus metrics
     networks:
       - ruby-board
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - ruby-board
+    depends_on:
+      - prometheus
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - ruby-board
+    volumes:
+      - ./deploy-setting/prometheus.yml:/etc/prometheus/prometheus.yml
 
 networks:
   ruby-board:
