@@ -45,3 +45,4 @@ group :development, :test do
 end
 
 gem "pg", "~> 1.2" # Use PostgreSQL as the database for Active Record
+gem "bunny", ">= 2.23.0"
