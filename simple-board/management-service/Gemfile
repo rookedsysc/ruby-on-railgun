@@ -64,3 +64,4 @@ gem "pg", "~> 1.2" # Use PostgreSQL as the database for Active Record
 gem 'grpc'
 gem 'grpc-tools'
 gem 'google-protobuf'
+gem "bunny"

@@ -3,7 +3,7 @@ require "bunny"
 module RabbitMQ
   class << self
     def connection
-      @connection ||= Bunny.new(host: "rabbitmq", port: 5672, username: "user", password: "password")
+      @connection ||= Bunny.new(host: "rabbitmq", port: 5672, username: "user", password: "password", automatically_recover: true)
     end
 
     def channel

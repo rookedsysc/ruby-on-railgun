@@ -4,7 +4,7 @@
 # levenshtein.proto
 
 require 'grpc'
-require 'levenshtein_pb'
+require_relative 'levenshtein_pb'
 
 module Levenshtein
   module LevenshteinService
