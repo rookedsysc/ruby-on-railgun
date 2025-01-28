@@ -1,6 +1,9 @@
+require_dependency Rails.root.join("app/services/rabbit_mq_publisher")
+
 module Api
   module V1
     class PostsController < ApplicationController
+      QUEUE_NAME = "post".freeze
       # update, show, destroy 메서드가 실행되기 전에 set_post 메서드를 실행함
       # set_post 메서드는 id를 통해 Post를 찾아 @post에 할당함
       before_action :set_post, only: %i[show update destroy]
@@ -20,6 +23,7 @@ module Api
       def create
         @post = Post.new(post_params)
         if @post.save
+          RabbitMQPublisher.publish(QUEUE_NAME, @post.id.to_s)
           render json: @post, status: :created
         else
           render json: @post.errors, status: :unprocessable_entity
@@ -29,6 +33,7 @@ module Api
       # PATCH/PUT /api/v1/posts/:id
       def update
         if @post.update(post_params)
+          RabbitMQPublisher.publish(QUEUE_NAME, @post.id.to_s)
           render json: @post
         else
           render json: @post.errors, status: :unprocessable_entity
