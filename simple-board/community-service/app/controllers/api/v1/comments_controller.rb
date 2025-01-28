@@ -1,6 +1,7 @@
 module Api
   module V1
     class CommentsController < ApplicationController
+      QUEUE_NAME = 'comments'.freeze
       before_action :set_post, only: %i[create index]
 
       # GET /api/v1/posts/:post_id/comments
@@ -13,6 +14,7 @@ module Api
       def create
         @comment = @post.comments.new(comment_params)
         if @comment.save
+          RabbitMQPublisher.publish(QUEUE_NAME, @comment.id.to_s)
           render json: @comment, status: :created
         else
           render json: @comment.errors, status: :unprocessable_entity
@@ -22,6 +24,7 @@ module Api
       # PATCH/PUT /api/v1/comments/:id
       def update
         comment = Comment.where(id: params[:id]).update(comment_params)
+        RabbitMQPublisher.publish(QUEUE_NAME, params[:id].to_s)
         render json: comment, status: :ok
       end
 
