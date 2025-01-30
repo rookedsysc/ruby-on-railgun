@@ -1,6 +1,6 @@
 import http from 'k6/http';
-import {check} from 'k6';
-import {SharedArray} from 'k6/data';
+import { check } from 'k6';
+import { SharedArray } from 'k6/data';
 
 const textData = new SharedArray('taboo words from txt', function () {
     return open('./WordData.txt', 'r')
@@ -17,14 +17,14 @@ const data = new SharedArray('taboo words', function () {
 export default function () {
     let cnt = 0;
     data.forEach(word => {
-        const payload = JSON.stringify({content: word});
-        const params = {headers: {'Content-Type': 'application/json'}};
+        const payload = JSON.stringify({ content: word });
+        const params = { headers: { 'Content-Type': 'application/json' } };
 
         let res;
         let success = false;
 
         while (!success) {
-            res = http.post('http://localhost:3000/api/v1/taboo_words', payload, params);
+            res = http.post('http://localhost:8081/api/v1/trigram', payload, params);
             success = check(res, {
                 'is status 201 or 406': (r) => r.status === 201 || r.status === 406,
             });
