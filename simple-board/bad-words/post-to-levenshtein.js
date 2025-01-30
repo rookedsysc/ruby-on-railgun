@@ -24,7 +24,7 @@ export default function () {
         let success = false;
 
         while (!success) {
-            res = http.post('http://localhost:3000/api/v1/levenshtein', payload, params);
+            res = http.post('http://localhost:8081/api/v1/levenshtein', payload, params);
             success = check(res, {
                 'is status 201 or 406': (r) => r.status === 201 || r.status === 406,
             });
