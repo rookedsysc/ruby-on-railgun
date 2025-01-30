@@ -1,15 +1,15 @@
 module Api
   module V1
-    class TabooWordsController < ApplicationController
+    class TrigramController < ApplicationController
       before_action :set_taboo_word, only: [:update, :destroy]
 
-      # GET /api/v1/taboo_words
+      # GET /api/v1/trigram
       def index
-        @taboo_words = TabooWord.all
-        render json: @taboo_words, status: :ok
+        @trigram = TabooWord.all
+        render json: @trigram, status: :ok
       end
 
-      # POST /api/v1/taboo_words
+      # POST /api/v1/trigram
       def create
         taboo_word = TabooWord.new(taboo_word_params)
         begin
@@ -23,7 +23,7 @@ module Api
         end
       end
 
-      # PUT /api/v1/taboo_words/:id
+      # PUT /api/v1/trigram/:id
       def update
         if @taboo_word.update(taboo_word_params)
           render status: :ok
@@ -32,13 +32,13 @@ module Api
         end
       end
 
-      # DELETE /api/v1/taboo_words/:id
+      # DELETE /api/v1/trigram/:id
       def destroy
         @taboo_word.destroy
         render json: { message: 'Taboo word deleted successfully' }, status: :ok
       end
 
-      # GET /api/v1/taboo_words/trigram?query=단어
+      # GET /api/v1/trigram/trigram?query=단어
       def trigram
         query = params[:query]
 
@@ -60,20 +60,20 @@ module Api
           # word_similarity 함수는 전체 문자열에서 부분적으로 탐색하는 함수임
           # 근데 탐지율이 좋지 않아서 안씀
           # @similar_words = TabooWord.find_by_sql([<<-SQL, normalized_query, normalized_query, thresh_hold])
-          #       SELECT taboo_words.id, taboo_words.content, word_similarity(taboo_words.content, ?) AS similarity_score
-          #       FROM taboo_words
-          #       WHERE word_similarity(taboo_words.content, ?) >= ?
+          #       SELECT trigram.id, trigram.content, word_similarity(trigram.content, ?) AS similarity_score
+          #       FROM trigram
+          #       WHERE word_similarity(trigram.content, ?) >= ?
           #       ORDER BY similarity_score DESC
           #       LIMIT 5
           # SQL
 
           @similar_words = TabooWord.find_by_sql([<<-SQL, normalized_combinations, thresh_hold])
-                SELECT taboo_words.id, taboo_words.content, GREATEST(
+                SELECT trigram.id, trigram.content, GREATEST(
                   #{normalized_combinations.map { |comb| "similarity(content, #{ActiveRecord::Base.connection.quote(comb)})" }.join(', ')}
                 ) AS similarity_score
-                FROM taboo_words
-                WHERE taboo_words.content IN (
-                  SELECT taboo_words.content
+                FROM trigram
+                WHERE trigram.content IN (
+                  SELECT trigram.content
                   FROM UNNEST(ARRAY[?]::text[]) AS combination(word)
                   WHERE similarity(content, combination.word) >= ?
                 )
@@ -88,7 +88,7 @@ module Api
         end
       end
 
-      # GET /api/v1/taboo_words/full_text?query=단어
+      # GET /api/v1/trigram/full_text?query=단어
       def full_text
         query = params[:query]
 
@@ -125,7 +125,7 @@ module Api
 
       # Strong parameters
       def taboo_word_params
-        params.require(:taboo_word).permit(:content)
+        params.require(:trigram).permit(:content)
       end
     end
   end

@@ -151,7 +151,7 @@ services:
       - ruby-board
 
   rabbitmq:
-    image: "rabbitmq:latest"
+    image: rabbitmq:3-management-alpine
     container_name: rabbitmq
     ports:
       - "5672:5672"

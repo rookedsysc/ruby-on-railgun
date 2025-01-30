@@ -6,6 +6,12 @@ Rails.application.routes.draw do
           get :search
         end
       end
+      resources :trigram, only: [:index, :create, :update, :destroy] do
+        collection do
+          get :trigram
+          get :full_text
+        end
+      end
     end
   end
 end
