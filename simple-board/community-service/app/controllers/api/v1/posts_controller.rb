@@ -23,7 +23,7 @@ module Api
       def create
         @post = Post.new(post_params)
         if @post.save
-          RabbitMQPublisher.publish(QUEUE_NAME, @post.id.to_s)
+          RabbitMqPublisher.publish(QUEUE_NAME, @post.id.to_s)
           render json: @post, status: :created
         else
           render json: @post.errors, status: :unprocessable_entity
@@ -33,7 +33,7 @@ module Api
       # PATCH/PUT /api/v1/posts/:id
       def update
         if @post.update(post_params)
-          RabbitMQPublisher.publish(QUEUE_NAME, @post.id.to_s)
+          RabbitMqPublisher.publish(QUEUE_NAME, @post.id.to_s)
           render json: @post
         else
           render json: @post.errors, status: :unprocessable_entity
