@@ -19,6 +19,7 @@ services:
     command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
     depends_on:
       - db
+      - rabbitmq
     environment:
       RAILS_ENV: development
     volumes:
@@ -43,6 +44,7 @@ services:
     command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
     depends_on:
       - db
+      - rabbitmq
     environment:
       RAILS_ENV: development
     volumes:
@@ -67,6 +69,7 @@ services:
     command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
     depends_on:
       - db
+      - rabbitmq
     environment:
       RAILS_ENV: development
     volumes:
@@ -91,6 +94,7 @@ services:
     command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
     depends_on:
       - db
+      - rabbitmq
     environment:
       RAILS_ENV: development
     volumes:
@@ -117,6 +121,7 @@ services:
       - "8081:3000"
     depends_on:
       - db
+      - rabbitmq
     environment:
       RAILS_ENV: development
     volumes:
@@ -143,6 +148,7 @@ services:
       - "50051:50051"
     depends_on:
       - db
+      - rabbitmq
     environment:
       RAILS_ENV: development
     volumes:
