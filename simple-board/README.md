@@ -21,7 +21,7 @@
   - 욕설 탐지 서버 : PostgreSQL의 Trigram Extension을 통해서 간략하게(아님) 구현된 욕설 탐지 서버
     - 관리자 서버와 gRPC로 연결되어 있음
 
-<img src="./img/infra.png" width="75%" />
+<img src="./img/infra.png" width="100%" />
 
 ### gRPC?
 
