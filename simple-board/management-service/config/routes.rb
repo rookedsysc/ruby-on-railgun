@@ -10,6 +10,7 @@ Rails.application.routes.draw do
         collection do
           get :trigram
           get :full_text
+          get :grpc
         end
       end
     end
