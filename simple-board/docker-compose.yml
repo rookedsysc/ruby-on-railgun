@@ -41,7 +41,7 @@ services:
       context: ./community-service
       dockerfile: Dockerfile
     container_name: cm2
-    command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
+    command: bash -c "bundle exec rails && bundle exec rails server -b 0.0.0.0 -p 3000"
     depends_on:
       - db
       - rabbitmq
@@ -66,7 +66,7 @@ services:
       context: ./community-service
       dockerfile: Dockerfile
     container_name: cm3
-    command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
+    command: bash -c "bundle exec rails && bundle exec rails server -b 0.0.0.0 -p 3000"
     depends_on:
       - db
       - rabbitmq
@@ -91,7 +91,7 @@ services:
       context: ./community-service
       dockerfile: Dockerfile
     container_name: cm4
-    command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
+    command: bash -c "bundle exec rails && bundle exec rails server -b 0.0.0.0 -p 3000"
     depends_on:
       - db
       - rabbitmq
@@ -116,7 +116,7 @@ services:
       context: ./management-service
       dockerfile: Dockerfile
     container_name: management-service
-    command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
+    command: bash -c "bundle exec rails && bundle exec rails server -b 0.0.0.0 -p 3000"
     ports:
       - "8081:3000"
     depends_on:
@@ -143,12 +143,11 @@ services:
       context: ./badword-detector
       dockerfile: Dockerfile
     container_name: bad-word-detector-service
-    command: bash -c "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p 3000"
+    command: bash -c "bundle exec rails && bundle exec rails server -b 0.0.0.0 -p 3000"
     ports:
       - "50051:50051"
     depends_on:
       - db
-      - rabbitmq
     environment:
       RAILS_ENV: development
     volumes:
@@ -197,6 +196,11 @@ services:
       - 8080:8080
     volumes:
       - ./deploy-setting/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - cm1
+      - cm2
+      - cm3
+      - cm4
 
 networks:
   ruby-board:

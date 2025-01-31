@@ -9,9 +9,15 @@ class PostSubscriber
 
     Rails.logger.info " [*] Waiting for messages in #{queue.name}. To exit press CTRL+C"
 
-    queue.subscribe do |delivery_info, properties, body|
+    queue.subscribe(manual_ack: true) do |delivery_info, properties, body|
       Rails.logger.info "delivery_info: #{delivery_info}" + " / properties: #{properties}" + " / body: #{body}"
-      self.work(body)
+      begin
+        self.work(body)
+        channel.ack(delivery_info.delivery_tag)
+      rescue StandardError => e
+        Rails.logger.error "Error processing message: #{e.message}"
+        channel.nack(delivery_info.delivery_tag, false, true) # requeue the message
+      end
     end
   end
 
