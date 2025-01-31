@@ -88,6 +88,23 @@ module Api
         end
       end
 
+      def grpc
+        param = params[:query]
+    
+        # grpc 검증
+        detections = []
+        query = Levenshtein::Query.new(text: param)
+        grpc_stub = Levenshtein::LevenshteinService::Stub.new('bad-word-detector-service:50051', :this_channel_is_insecure)
+        response = grpc_stub.search(query)
+    
+        response.words.each do |word|
+          detections << { id: word.id, content: word.content, similarity_rate: word.similarity_rate }
+        end
+    
+        Rails.logger.info "[★] detections: #{detections.to_s}"
+        render json: detections, status: :ok
+      end
+
       # GET /api/v1/trigram/full_text?query=단어
       def full_text
         query = params[:query]
