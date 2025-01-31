@@ -38,19 +38,24 @@ class LevenshteinService < Levenshtein::LevenshteinService::Service
       # SQL
 
       # trigram을 이용하여 similarity를 계산하는 방법
-      similar_words = TabooWord.find_by_sql([ <<-SQL, normalized_combinations, thresh_hold ])
-        SELECT taboo_words.id, taboo_words.content, GREATEST(
-          #{normalized_combinations.map { |comb| "similarity(content, #{ActiveRecord::Base.connection.quote(comb)})" }.join(', ')}
-        ) AS similarity_score
-        FROM taboo_words
-        WHERE taboo_words.content IN (
-          SELECT taboo_words.content
-          FROM UNNEST(ARRAY[?]::text[]) AS combination(word)
-          WHERE similarity(content, combination.word) >= ?
+      similar_words = TabooWord.find_by_sql([ <<-SQL, normalized_combinations, thresh_hold, 5 ])
+        WITH similarity_results AS (
+          SELECT#{' '}
+            taboo_words.id,
+            taboo_words.content,
+            similarity(content, combination.word) AS similarity_score
+          FROM taboo_words
+          JOIN UNNEST(ARRAY[?]::text[]) AS combination(word)#{' '}
+          ON similarity(content, combination.word) >= ?
+          ORDER BY similarity_score DESC
+          LIMIT ?
         )
+        SELECT id, content, MAX(similarity_score) AS similarity_score
+        FROM similarity_results
+        GROUP BY id, content
         ORDER BY similarity_score DESC
-        LIMIT 5
       SQL
+
       Rails.logger.info "[✨] similar words : #{similar_words}"
 
       if similar_words.nil?
