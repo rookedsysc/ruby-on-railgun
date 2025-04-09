@@ -1,11 +1,19 @@
-## Blog Posting
+## Overview
 
-- 이슈를 해결한 과정, 성능 테스트, 구현하는데 필요했던 지식 등에 대해서 최대한 상세하게 포스팅 하였습니다.
-- https://velog.io/@rookedsysc/series/RoR-%EC%9A%95%EC%84%A4%ED%83%90%EC%A7%80-%EC%8B%9C%EC%8A%A4%ED%85%9C
+Ruby On Rails를 공부해보기 위해서 진행한 프로젝트.
+운영 개발 팀에서 클린 봇을 만들 때 인프라를 어떻게 설계할지 고민하며 구현.
 
-## Introduction
+- 커뮤니티 서버, 관리자 서버, 욕설 탐지 3개의 서버로 나누는 것으로 설계
+  - 커뮤니티 서버와 관리자 서버는 RabbitMQ를 통해서 신규 게시물이 작성되었다고 알림
+  - 관리자 서버는 욕설 탐지 서버의 gRPC를 호출해서 욕설 검증을 요청
+- PostgreSQL의 trigram index extension을 활용한 욕설 탐지 구현 (블로그 포스팅)
+- RabbitMQ의 nack 응답을 활용해서 gRPC 요청으로 욕설 탐지에 실패했을 경우 retry 하도록 구현 
 
-이 프로젝트는 운영 개발 업무 중 실시간 서비스에서 욕설은 어떻게 필터링이 될까? (ex: 네이버 클린봇) 이라는 궁금증에서 출발 했습니다. 처음에 두 가지 방식으로 구현하는 것을 생각 했습니다.
+## Portolio
+
+### 욕설 처리 로직 구현
+
+처음에 두 가지 방식으로 구현하는 것을 생각 했습니다.
 
 1. 게시물 작성시 Cache + Positive Response를 통해서 게시물을 작성한 유저에겐 글이 작성된 것처럼 보여주고 백엔드에서는 동기로 처리하는 방식
 2. 게시물 작성시 Queue에 넣어두고 최대한 빠르게 is_visible을 false로 처리해서 사용자에게 보여주지 않는 방식
@@ -44,7 +52,7 @@ gRPC 통신을 사용한 이유는 다음과 같습니다.
 <img src="./img/async-bad-word-detecting.png" width="100%" />
 
 
-## Installation
+## How To Start
 
 ```console
 docker compose up -d --build
